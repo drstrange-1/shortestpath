@@ -3,6 +3,27 @@ from folium import plugins
 from numpy import append
 from django.shortcuts import render
 
+
+def home(request):
+    sources={
+        '1':'Bus Stop',
+        '11':'Srishti PG',
+        '12':'Benaka Boys Hostel',
+    }
+    destinations ={
+         '1':'Bus Stop',
+        '11':'Srishti PG',
+        '12':'Benaka Boys Hostel',
+        '29':'TT Quick Bites',
+        '4':'Homely',
+        '9':'Delhi Mess',
+        '22':'Urmidi Fastfoods',
+        '21':'More SuperMarket',
+        '23':'Anjaneya Swami Temple',
+        '26':'Ground',
+        '2':'Laundry'
+    }
+    return render(request,'shortestpath/home.html',{'sources':sources,'destinations':destinations})
 # defining default location to center the map
 defaultLocation = (13.034702, 77.565557)
 myMap = folium.Map(location = defaultLocation, width = "75%", zoom_start = 18)
@@ -271,13 +292,13 @@ def path(request):
 
 
     # calling to find path between two specified nodes
-    source = 1
-    destination = 30
+    source = int(request.POST.get('source'))
+    destination = int(request.POST.get('destination'))
     path = constructPath((source-1), (destination-1))
     # calculateTotalDistance(path)
     # print(totalDistance)
     # print(path)
-
+    
 
     #antPath animation
     folium.plugins.AntPath([antPath]).add_to(myMap)
